@@ -1,15 +1,21 @@
 var builder = WebApplication.CreateBuilder(args);
 
-// Add service defaults & Aspire components.
 builder.AddServiceDefaults();
 
-// Add services to the container.
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddProblemDetails();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.MapDefaultEndpoints();
+
 app.UseExceptionHandler();
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 var summaries = new[]
 {
@@ -29,7 +35,7 @@ app.MapGet("/weatherforecast", () =>
     return forecast;
 });
 
-app.MapDefaultEndpoints();
+app.MapControllers();
 
 app.Run();
 
