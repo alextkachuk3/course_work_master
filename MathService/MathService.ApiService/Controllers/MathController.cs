@@ -1,9 +1,11 @@
 ﻿using MathService.ApiService.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
+using System.Text;
 using System.Text.Json;
 
 namespace MathService.ApiService.Controllers
-{    
+{
     public class MathController : Controller
     {
         private readonly ILogger<MathController> _logger;
@@ -18,15 +20,14 @@ namespace MathService.ApiService.Controllers
         }
 
         [HttpPost("multiply")]
-        public async Task<IActionResult> Multiply(string A, string B)
+        public async Task<IActionResult> Multiply([FromForm] string A, [FromForm] string B)
         {
             string cacheKey = $"{A}-{B}";
             var cachedResult = await _cacheService.GetCachedResultAsync(cacheKey);
 
             if (cachedResult != null)
             {
-                var cachedMatrix = JsonSerializer.Deserialize<int[,]>(cachedResult);
-                return Ok(cachedMatrix);
+                return Ok(cachedResult);
             }
 
             try
@@ -52,26 +53,24 @@ namespace MathService.ApiService.Controllers
             }
         }
 
-        private string GenerateCacheKey(int[,] matrixA, int[,] matrixB)
-        {
-            return $"{ConvertMatrixToString(matrixA)}_{ConvertMatrixToString(matrixB)}";
-        }
-
         private string ConvertMatrixToString(int[,] matrix)
         {
             var rows = matrix.GetLength(0);
             var cols = matrix.GetLength(1);
-            var key = "";
+            StringBuilder sb = new StringBuilder();
 
             for (int i = 0; i < rows; i++)
             {
                 for (int j = 0; j < cols; j++)
                 {
-                    key += matrix[i, j] + "-";
+                    sb.Append(matrix[i, j]);
+                    sb.Append("-");
                 }
             }
 
-            return key.TrimEnd('-');
+            sb.Remove(sb.Length - 1, 1);
+
+            return sb.ToString();
         }
     }
 }

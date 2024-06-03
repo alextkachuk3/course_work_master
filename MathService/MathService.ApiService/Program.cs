@@ -27,19 +27,6 @@ app.UseExceptionHandler();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-app.Use(async (context, next) =>
-{
-    await next();
-
-    if (context.Request.Path.StartsWithSegments("/swagger"))
-    {
-        context.Response.Headers.Remove("Cache-Control");
-        context.Response.Headers.Remove("Pragma");
-        context.Response.Headers.Remove("Expires");
-        context.Response.Headers["Cache-Control"] = "public, max-age=3600";
-    }
-});
-
 var summaries = new[]
 {
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"

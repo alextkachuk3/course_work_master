@@ -20,10 +20,9 @@ namespace MathService.ApiService.Services
             return await _db.StringGetAsync(key);
         }
 
-        public async Task CacheResultAsync(string key, object value)
+        public async Task CacheResultAsync(string key, string value)
         {
-            var jsonData = JsonSerializer.Serialize(value);
-            await _db.StringSetAsync(key, jsonData, TimeSpan.FromMinutes(10));
+            await _db.StringSetAsync(key, value, TimeSpan.MaxValue);
         }
     }
 }
