@@ -15,7 +15,7 @@ namespace MathService.ApiService.Services
             _db = redis.GetDatabase();
         }
 
-        public async Task<string> GetCachedResultAsync(string key)
+        public async Task<string?> GetCachedResultAsync(string key)
         {
             return await _db.StringGetAsync(key);
         }
