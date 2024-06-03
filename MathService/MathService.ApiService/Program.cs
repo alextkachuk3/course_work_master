@@ -15,6 +15,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddProblemDetails();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors();
+
 builder.Services.AddScoped<MatrixService>();
 builder.Services.AddScoped<RedisCacheService>();
 
@@ -26,6 +28,11 @@ app.UseExceptionHandler();
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseCors(builder => builder
+     .AllowAnyOrigin()
+     .AllowAnyMethod()
+     .AllowAnyHeader());
 
 var summaries = new[]
 {
@@ -59,6 +66,8 @@ app.MapGet("/weatherforecast", async (IDistributedCache cache) =>
     return JsonSerializer.Deserialize<IEnumerable<WeatherForecast>>(cachedForecast);
 })
 .WithName("GetWeatherForecast");
+
+app.MapGet("/time", () => DateTime.Now.ToShortTimeString());
 
 app.MapControllers();
 
