@@ -50,21 +50,29 @@
     $('#increaseACols').click(function () {
         adjustMatrixSize(sizeA, 0, 1);
         createMatrix('#matrixA', sizeA);
+        adjustMatrixSize(sizeB, 1, 0);
+        createMatrix('#matrixB', sizeB);
     });
 
     $('#decreaseACols').click(function () {
         adjustMatrixSize(sizeA, 0, -1);
         createMatrix('#matrixA', sizeA);
+        adjustMatrixSize(sizeB, -1, 0);
+        createMatrix('#matrixB', sizeB);
     });
 
     $('#increaseBRows').click(function () {
         adjustMatrixSize(sizeB, 1, 0);
         createMatrix('#matrixB', sizeB);
+        adjustMatrixSize(sizeA, 0, 1);
+        createMatrix('#matrixA', sizeA);
     });
 
     $('#decreaseBRows').click(function () {
         adjustMatrixSize(sizeB, -1, 0);
         createMatrix('#matrixB', sizeB);
+        adjustMatrixSize(sizeA, 0, -1);
+        createMatrix('#matrixA', sizeA);
     });
 
     $('#increaseBCols').click(function () {
