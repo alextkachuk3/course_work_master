@@ -51,10 +51,10 @@ public class MathController : Controller
         }
     }
 
-    [HttpPost("reverse")]
-    public async Task<IActionResult> Reverse([FromForm] string A)
+    [HttpPost("inverse")]
+    public async Task<IActionResult> Inverse([FromForm] string A)
     {
-        string cacheKey = $"reverse-{A}";
+        string cacheKey = $"inverse-{A}";
         var cachedResult = await _cacheService.GetCachedResultAsync(cacheKey);
 
         if (cachedResult != null)
@@ -65,7 +65,7 @@ public class MathController : Controller
         try
         {
             var matrixA = _matrixService.ParseMatrix(A);
-            var reversedMatrix = _matrixService.Reverse(matrixA);
+            var reversedMatrix = _matrixService.Inverse(matrixA);
             var result = ConvertMatrixToString(reversedMatrix);
             await _cacheService.CacheResultAsync(cacheKey, result);
             return Ok(result);

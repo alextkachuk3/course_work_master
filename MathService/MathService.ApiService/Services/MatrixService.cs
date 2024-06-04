@@ -32,7 +32,7 @@ namespace MathService.ApiService.Services
             return result;
         }
 
-        public double[,] Reverse(double[,] matrix)
+        public double[,] Inverse(double[,] matrix)
         {
             int n = matrix.GetLength(0);
             double[,] result = new double[n, n];
