@@ -36,23 +36,13 @@
         size.cols = Math.max(1, size.cols + colsIncrement);
     }
 
-    $('#increaseRows').click(function () {
-        adjustMatrixSize(size, 1, 0);
+    $('#increase').click(function () {
+        adjustMatrixSize(size, 1, 1);
         createMatrix('#matrix', size);
     });
 
-    $('#decreaseRows').click(function () {
-        adjustMatrixSize(size, -1, 0);
-        createMatrix('#matrix', size);
-    });
-
-    $('#increaseCols').click(function () {
-        adjustMatrixSize(size, 0, 1);
-        createMatrix('#matrix', size);
-    });
-
-    $('#decreaseCols').click(function () {
-        adjustMatrixSize(size, 0, -1);
+    $('#decrease').click(function () {
+        adjustMatrixSize(size, -1, -1);
         createMatrix('#matrix', size);
     });
 
@@ -67,7 +57,7 @@
                 deserializeMatrix(response, '#result');
             },
             error: function () {
-                alert('Error in matrix invers.');
+                alert('Матриця не може бути обернена.');
             }
         });
     });
