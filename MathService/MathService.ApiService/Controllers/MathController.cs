@@ -51,23 +51,56 @@ public class MathController : Controller
         }
     }
 
-    private string ConvertMatrixToString(int[,] matrix)
+    [HttpPost("reverse")]
+    public async Task<IActionResult> Reverse([FromForm] string A)
+    {
+        string cacheKey = $"reverse-{A}";
+        var cachedResult = await _cacheService.GetCachedResultAsync(cacheKey);
+
+        if (cachedResult != null)
+        {
+            return Ok(cachedResult);
+        }
+
+        try
+        {
+            var matrixA = _matrixService.ParseMatrix(A);
+            var reversedMatrix = _matrixService.Reverse(matrixA);
+            var result = ConvertMatrixToString(reversedMatrix);
+            await _cacheService.CacheResultAsync(cacheKey, result);
+            return Ok(result);
+        }
+        catch (FormatException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+        catch (InvalidOperationException ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, new { message = "An unexpected error occurred.", details = ex.Message });
+        }
+    }
+
+    private string ConvertMatrixToString(double[,] matrix)
     {
         var rows = matrix.GetLength(0);
         var cols = matrix.GetLength(1);
         StringBuilder sb = new();
 
         sb.Append(rows);
-        sb.Append('-');
+        sb.Append(';');
         sb.Append(cols);
-        sb.Append('-');
+        sb.Append(';');
 
         for (int i = 0; i < rows; i++)
         {
             for (int j = 0; j < cols; j++)
             {
                 sb.Append(matrix[i, j]);
-                sb.Append('-');
+                sb.Append(';');
             }
         }
 

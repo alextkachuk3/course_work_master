@@ -18,11 +18,11 @@
         $(container).find('input').each(function () {
             values.push($(this).val() || 0);
         });
-        return `${size.rows}-${size.cols}-${values.join('-')}`;
+        return `${size.rows};${size.cols};${values.join(';')}`;
     }
 
     function deserializeMatrix(data, container) {
-        let [rows, cols, ...values] = data.split('-');
+        let [rows, cols, ...values] = data.split(';');
         rows = parseInt(rows);
         cols = parseInt(cols);
         createMatrix(container, { rows, cols });
