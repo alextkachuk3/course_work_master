@@ -18,6 +18,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
 
 builder.Services.AddScoped<MatrixService>();
+builder.Services.AddScoped<FibonacciService>();
 builder.Services.AddScoped<RedisCacheService>();
 
 var app = builder.Build();

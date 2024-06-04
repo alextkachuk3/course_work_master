@@ -8,12 +8,14 @@ public class MathController : Controller
 {
     private readonly ILogger<MathController> _logger;
     private readonly MatrixService _matrixService;
+    private readonly FibonacciService _fibonacciService;
     private readonly RedisCacheService _cacheService;
 
-    public MathController(ILogger<MathController> logger, MatrixService matrixService, RedisCacheService cacheService)
+    public MathController(ILogger<MathController> logger, MatrixService matrixService, FibonacciService fibonacciService, RedisCacheService cacheService)
     {
         _logger = logger;
         _matrixService = matrixService;
+        _fibonacciService = fibonacciService;
         _cacheService = cacheService;
     }
 
@@ -82,6 +84,28 @@ public class MathController : Controller
         {
             return StatusCode(500, new { message = "An unexpected error occurred.", details = ex.Message });
         }
+    }
+
+    [HttpPost("fibonacci")]
+    public async Task<IActionResult> FibonacciNumber(int n)
+    {
+        if(n <= 0)
+        {
+            return BadRequest(new { message = "n must be a positive value" });
+        }
+
+        string cacheKey = $"fibonacci-{n}";
+        var cachedResult = await _cacheService.GetCachedResultAsync(cacheKey);
+
+        if (cachedResult != null)
+        {
+            return Ok(cachedResult);
+        }
+
+        var result = _fibonacciService.GetFibonacciAsync(n).ToString();
+        await _cacheService.CacheResultAsync(cacheKey, result);
+
+        return Ok(result);
     }
 
     private string ConvertMatrixToString(double[,] matrix)
