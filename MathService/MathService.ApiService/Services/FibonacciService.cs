@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MathService.ApiService.Services
+﻿namespace MathService.ApiService.Services
 {
     public class FibonacciService
     {

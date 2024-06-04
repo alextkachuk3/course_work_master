@@ -1,0 +1,25 @@
+﻿@page "/fibonacci"
+
+@rendermode InteractiveServer
+
+@inject IJSRuntime JsRuntime
+
+<PageTitle>Числа Фібоначчі</PageTitle>
+
+<div class="container">
+    <h2>Числа Фібоначчі</h2>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <label for="fibonacciIndex">Введіть значення числа:</label>
+                <input type="number" id="fibonacciIndex" class="form-control" />
+            </div>
+            <button id="calculateFibonacci" class="btn btn-success mt-2">Обрахувати</button>
+        </div>
+    </div>
+    <h4 class="mt-4">Результат</h4>
+    <div id="result" class="mt-2"></div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="js/fibonacci.js"></script>

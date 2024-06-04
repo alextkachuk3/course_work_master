@@ -87,7 +87,7 @@ public class MathController : Controller
     }
 
     [HttpPost("fibonacci")]
-    public async Task<IActionResult> FibonacciNumber(int n)
+    public async Task<IActionResult> FibonacciNumber([FromForm] int n)
     {
         if(n <= 0)
         {
