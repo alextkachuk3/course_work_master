@@ -1,4 +1,6 @@
-﻿$(document).ready(function () {
+﻿
+
+$(document).ready(function () {
     let sizeA = { rows: 2, cols: 2 };
     let sizeB = { rows: 2, cols: 2 };
 
